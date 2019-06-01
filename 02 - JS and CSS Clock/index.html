@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: url("bg-court.jpg");
+      }
+
+      #circle {
+        display: flex;
+        height: 400px;
+        width: 400px;
+        border: solid;
+        border-width: 15px;
+        border-color: rgb(182, 7, 7);
+        background: url("Toronto-Raptors-sign.png");
+        opacity: 0.95;
+        background-size: 400px;
+        background-repeat: no-repeat;
+        background-position: center;
+        align-items: center;
+        border-radius: 50%;
+        padding: 30px;
+      }
+
+      :root {
+        --hour-color: rgb(250, 225, 0);
+        --hour-degree: -90deg;
+        --minute-color: aqua;
+        --minute-degree: 0deg;
+        --second-color: rgb(89, 0, 255);
+        --second-degree: 90deg;
+        --secondLast-degree: 0deg;
+      }
+
+      hour {
+        margin-left: auto;
+        margin-right: auto;
+        left: 130px;
+        right: 0px;
+        height: 10px;
+        width: 130px;
+        background: var(--hour-color);
+        transform: rotate(var(--hour-degree));
+        transform-origin: 0% 0%;
+        position: absolute;
+      }
+      minute {
+        margin-left: auto;
+        margin-right: auto;
+        left: 200px;
+        right: 0px;
+        height: 10px;
+        width: 200px;
+        background: var(--minute-color);
+        transform: rotate(var(--minute-degree));
+        transform-origin: 0% 0%;
+        position: absolute;
+      }
+      second {
+        margin-left: auto;
+        margin-right: auto;
+        left: 200px;
+        right: 0px;
+        height: 10px;
+        width: 200px;
+        background: var(--second-color);
+
+        transform-origin: 0% 0%;
+        position: absolute;
+        animation: rotation 60s infinite linear;
+      }
+
+      secondLast {
+      }
+
+      @-webkit-keyframes rotation {
+        from {
+          transform: rotate(var(--second-degree));
+        }
+        to {
+          transform: rotate(var(--secondLast-degree));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="circle">
+      <minute>minute</minute>
+      <hour>hour</hour>
+      <second>second</second>
+    </div>
+  </body>
+  <script>
+    var circle = document.getElementById("circle");
+    var hour = document.querySelector("hour");
+    var minute = document.querySelector("minute");
+    var second = document.querySelector("second");
+    var date = new Date();
+    var getHours = date.getHours();
+    var getMinutes = date.getMinutes();
+    var getSeconds = date.getSeconds();
+    var hourHandPosition = hour.style;
+    function hourHandCalculator() {
+      return getMinutes / 60 + (getHours / 12) * 360;
+      // if (getHours > 12) {
+      //   return getMinutes / 60 + (getHours / 12) * 360;
+      // } else {
+      //   return getMinutes / 60 + (getHours - 12 / 12) * 360;
+      // }
+    }
+    var hourHand = hourHandCalculator();
+    var minuteHand = (getMinutes / 60) * 360;
+    var trueHour = minuteHand * 0.1 + hourHand;
+    var secondHand = (getSeconds / 60) * 360;
+
+    // circle.addEventListener("click", function() {
+    //   console.log(minute);
+    //   console.log(hour + " " + hourHand);
+    //   hour.style.setProperty("--hour-color", "red");
+    //   hour.style.setProperty("--hour-degree", trueHour - 90 + "deg");
+    //   minute.style.setProperty("--minute-degree", minuteHand - 90 + "deg");
+    //   second.style.setProperty("--second-degree", secondHand - 90 + "deg");
+    // });
+
+    hour.style.setProperty("--hour-degree", trueHour - 90 + "deg");
+    minute.style.setProperty("--minute-degree", minuteHand - 90 + "deg");
+    second.style.setProperty("--second-degree", secondHand - 90 + "deg");
+    document.documentElement.style.setProperty(
+      "--secondLast-degree",
+      secondHand - 90 + 360 + "deg"
+    );
+  </script>
+</html>
