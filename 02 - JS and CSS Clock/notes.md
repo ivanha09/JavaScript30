@@ -33,3 +33,15 @@ https://css-tricks.com/snippets/css/transparent-background-images/
 ## setting css variables with javascript
 
 https://davidwalsh.name/css-variables-javascript
+
+## css animation
+
+https://thoughtbot.com/blog/css-animation-for-beginners
+
+## requestAnimationFrame()
+
+https://flaviocopes.com/requestanimationframe/
+
+possiblely correct way of making the clock or better.
+
+https://vimeo.com/254947206

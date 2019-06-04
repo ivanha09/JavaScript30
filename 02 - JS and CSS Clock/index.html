@@ -18,11 +18,10 @@
         display: flex;
         height: 400px;
         width: 400px;
-        border: solid;
-        border-width: 15px;
+        border: solid 15px;
         border-color: rgb(182, 7, 7);
         background: url("Toronto-Raptors-sign.png");
-        opacity: 0.95;
+        opacity: 0.98;
         background-size: 400px;
         background-repeat: no-repeat;
         background-position: center;
@@ -31,12 +30,26 @@
         padding: 30px;
       }
 
+      middle {
+        margin-left: auto;
+        margin-right: auto;
+        left: 0px;
+        right: 0px;
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        position: absolute;
+        background: orange;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+      }
+
       :root {
-        --hour-color: rgb(250, 225, 0);
+        --hour-color: rgb(224, 224, 224);
         --hour-degree: -90deg;
-        --minute-color: aqua;
+        --minute-color: rgb(32, 32, 32);
         --minute-degree: 0deg;
-        --second-color: rgb(89, 0, 255);
+        --minuteLast-degree: 0deg;
+        --second-color: rgb(182, 7, 7);
         --second-degree: 90deg;
         --secondLast-degree: 0deg;
       }
@@ -44,99 +57,86 @@
       hour {
         margin-left: auto;
         margin-right: auto;
-        left: 130px;
+        left: 142px;
         right: 0px;
-        height: 10px;
+        height: 5px;
         width: 130px;
+        border: solid 6px var(--hour-color);
+        border-radius: 8px;
         background: var(--hour-color);
         transform: rotate(var(--hour-degree));
-        transform-origin: 0% 0%;
+        transform-origin: center left;
         position: absolute;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
       }
       minute {
         margin-left: auto;
         margin-right: auto;
-        left: 200px;
+        left: 212px;
         right: 0px;
-        height: 10px;
+        height: 5px;
         width: 200px;
+        border: solid 6px var(--minute-color);
+        border-radius: 8px;
         background: var(--minute-color);
         transform: rotate(var(--minute-degree));
-        transform-origin: 0% 0%;
+        transform-origin: center left;
         position: absolute;
+        animation: minuteRotation 3600s infinite linear;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
       }
       second {
         margin-left: auto;
         margin-right: auto;
-        left: 200px;
+        left: 212px;
         right: 0px;
-        height: 10px;
+        height: 5px;
         width: 200px;
         background: var(--second-color);
-
-        transform-origin: 0% 0%;
+        border: solid 6px var(--second-color);
+        border-radius: 8px;
+        transform: rotate(var(--second-degree));
+        transform-origin: center left;
         position: absolute;
-        animation: rotation 60s infinite linear;
-      }
-
-      secondLast {
-      }
-
-      @-webkit-keyframes rotation {
-        from {
-          transform: rotate(var(--second-degree));
-        }
-        to {
-          transform: rotate(var(--secondLast-degree));
-        }
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
       }
     </style>
   </head>
   <body>
     <div id="circle">
-      <minute>minute</minute>
-      <hour>hour</hour>
-      <second>second</second>
+      <minute></minute>
+      <hour></hour>
+      <second></second>
+      <middle></middle>
     </div>
   </body>
   <script>
     var circle = document.getElementById("circle");
-    var hour = document.querySelector("hour");
-    var minute = document.querySelector("minute");
-    var second = document.querySelector("second");
-    var date = new Date();
-    var getHours = date.getHours();
-    var getMinutes = date.getMinutes();
-    var getSeconds = date.getSeconds();
-    var hourHandPosition = hour.style;
-    function hourHandCalculator() {
-      return getMinutes / 60 + (getHours / 12) * 360;
-      // if (getHours > 12) {
+
+    function repeatSecondHand() {
+      var date = new Date();
+
+      var hour = document.querySelector("hour");
+      var minute = document.querySelector("minute");
+      var second = document.querySelector("second");
+
+      var getHours = date.getHours();
+      var getMinutes = date.getMinutes();
+      var getSeconds = date.getSeconds();
+
+      // function hourHandCalculator() {
       //   return getMinutes / 60 + (getHours / 12) * 360;
-      // } else {
-      //   return getMinutes / 60 + (getHours - 12 / 12) * 360;
       // }
+      // var hourHand = hourHandCalculator();
+      var minuteHand = (getMinutes / 60) * 360;
+      //var trueHour = minuteHand * 0.1 + hourHand;
+
+      var secondHand = (getSeconds / 60) * 360;
+      //hour.style.setProperty("--hour-degree", trueHour - 90 + "deg");
+      minute.style.setProperty("--minute-degree", minuteHand - 90 + "deg");
+      second.style.setProperty("--second-degree", secondHand - 90 + "deg");
+      setInterval(repeatSecondHand, 17);
     }
-    var hourHand = hourHandCalculator();
-    var minuteHand = (getMinutes / 60) * 360;
-    var trueHour = minuteHand * 0.1 + hourHand;
-    var secondHand = (getSeconds / 60) * 360;
-
-    // circle.addEventListener("click", function() {
-    //   console.log(minute);
-    //   console.log(hour + " " + hourHand);
-    //   hour.style.setProperty("--hour-color", "red");
-    //   hour.style.setProperty("--hour-degree", trueHour - 90 + "deg");
-    //   minute.style.setProperty("--minute-degree", minuteHand - 90 + "deg");
-    //   second.style.setProperty("--second-degree", secondHand - 90 + "deg");
-    // });
-
-    hour.style.setProperty("--hour-degree", trueHour - 90 + "deg");
-    minute.style.setProperty("--minute-degree", minuteHand - 90 + "deg");
-    second.style.setProperty("--second-degree", secondHand - 90 + "deg");
-    document.documentElement.style.setProperty(
-      "--secondLast-degree",
-      secondHand - 90 + 360 + "deg"
-    );
+    repeatSecondHand();
   </script>
 </html>
