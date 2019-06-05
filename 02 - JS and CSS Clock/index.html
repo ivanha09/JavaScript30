@@ -113,7 +113,7 @@
   <script>
     var circle = document.getElementById("circle");
 
-    function repeatSecondHand() {
+    function draw() {
       var date = new Date();
 
       var hour = document.querySelector("hour");
@@ -124,19 +124,19 @@
       var getMinutes = date.getMinutes();
       var getSeconds = date.getSeconds();
 
-      // function hourHandCalculator() {
-      //   return getMinutes / 60 + (getHours / 12) * 360;
-      // }
-      // var hourHand = hourHandCalculator();
+      function hourHandCalculator() {
+        return getMinutes / 60 + (getHours / 12) * 360;
+      }
+      var hourHand = hourHandCalculator();
       var minuteHand = (getMinutes / 60) * 360;
-      //var trueHour = minuteHand * 0.1 + hourHand;
+      var trueHour = minuteHand * 0.1 + hourHand;
 
       var secondHand = (getSeconds / 60) * 360;
-      //hour.style.setProperty("--hour-degree", trueHour - 90 + "deg");
+      hour.style.setProperty("--hour-degree", trueHour - 90 + "deg");
       minute.style.setProperty("--minute-degree", minuteHand - 90 + "deg");
       second.style.setProperty("--second-degree", secondHand - 90 + "deg");
-      setInterval(repeatSecondHand, 17);
+      requestAnimationFrame(draw);
     }
-    repeatSecondHand();
+    draw();
   </script>
 </html>

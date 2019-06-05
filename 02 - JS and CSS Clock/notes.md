@@ -45,3 +45,5 @@ https://flaviocopes.com/requestanimationframe/
 possiblely correct way of making the clock or better.
 
 https://vimeo.com/254947206
+
+http://creativejs.com/resources/requestanimationframe/index.html
