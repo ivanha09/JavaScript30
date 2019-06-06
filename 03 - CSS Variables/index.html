@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <style>
+    body {
+      font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+      background: #2f1849;
+      color: floralwhite;
+      font-size: 16px;
+    }
+    :root {
+      --frame: #fbff00;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+    }
+    h2 {
+      font-size: 1.4rem;
+    }
+    #container {
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      align-content: space-around;
+    }
+    #frame {
+      display: flex;
+      background: var(--frame);
+      width: 100vw;
+      height: 60vw;
+      justify-content: center;
+      align-items: center;
+    }
+    #photograph {
+      content: url("P1290589.jpg");
+      max-width: 80%;
+      height: 80%;
+    }
+  </style>
+  <body>
+    <h1>Update CSS Variables with JS</h1>
+    <div id="container">
+      <h2>Spacing</h2>
+      <input type="range" />
+      <h2>Blur</h2>
+      <input type="range" />
+      <h2>Base Color</h2>
+      <input type="color" id="inputColor" value="#ff0000" />
+    </div>
+    <div id="frame">
+      <div id="photograph"></div>
+    </div>
+    <script>
+      var inputColor = document.getElementById("inputColor");
+      var frame = document.getElementById("frame");
+      inputColor.addEventListener("input", function() {
+        console.log(inputColor.value);
+        document
+          .getElementById("frame")
+          .style.setProperty("--frame", inputColor.value);
+      });
+    </script>
+  </body>
+</html>
