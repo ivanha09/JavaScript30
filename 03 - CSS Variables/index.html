@@ -7,6 +7,28 @@
     <title>Document</title>
   </head>
   <style>
+    #header {
+      grid-area: header;
+    }
+    #border {
+      grid-area: border;
+    }
+    #blur {
+      grid-area: blur;
+    }
+    #color {
+      grid-area: color;
+    }
+    #grid-container {
+      display: grid;
+      grid-template-areas:
+        "header header header"
+        "border blur color"
+        "photograph photograph photograph";
+      grid-gap: 30px;
+      padding: 10px;
+      justify-items: center;
+    }
     body {
       font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
         "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
@@ -15,7 +37,9 @@
       font-size: 16px;
     }
     :root {
-      --frame: #fbff00;
+      --borderWidth: 10px;
+      --baseColor: #fbff00;
+      --blur: 4px;
     }
     h1 {
       text-align: center;
@@ -24,47 +48,64 @@
     h2 {
       font-size: 1.4rem;
     }
-    #container {
-      display: flex;
-      justify-content: center;
-      align-items: baseline;
-      align-content: space-around;
-    }
-    #frame {
-      display: flex;
-      background: var(--frame);
-      width: 100vw;
-      height: 60vw;
-      justify-content: center;
-      align-items: center;
-    }
     #photograph {
       content: url("P1290589.jpg");
-      max-width: 80%;
-      height: 80%;
+      min-width: 70vh;
+      height: 50vh;
+      filter: blur(var(--blur));
+      border: var(--baseColor) solid var(--borderWidth);
+      grid-area: photograph;
+    }
+    .inputColor {
+      color: var(--baseColor);
     }
   </style>
   <body>
-    <h1>Update CSS Variables with JS</h1>
-    <div id="container">
-      <h2>Spacing</h2>
-      <input type="range" />
-      <h2>Blur</h2>
-      <input type="range" />
-      <h2>Base Color</h2>
-      <input type="color" id="inputColor" value="#ff0000" />
-    </div>
-    <div id="frame">
+    <div id="grid-container">
+      <div id="header">
+        <h1>Update CSS Variables with <span class="inputColor">JS</span></h1>
+      </div>
+      <div id="border">
+        <h2>Spacing</h2>
+        <input type="range" id="borderWidthRange" min="10" value="10" />
+      </div>
+      <div id="blur">
+        <h2>Blur</h2>
+        <input type="range" id="blurPhoto" value="30" />
+      </div>
+      <div id="color">
+        <h2>Base Color</h2>
+        <input
+          type="color"
+          id="inputColorSelector"
+          value="#fbff00"
+          class="inputColor"
+        />
+      </div>
       <div id="photograph"></div>
     </div>
     <script>
-      var inputColor = document.getElementById("inputColor");
-      var frame = document.getElementById("frame");
+      var inputColor = document.getElementById("inputColorSelector");
       inputColor.addEventListener("input", function() {
-        console.log(inputColor.value);
-        document
-          .getElementById("frame")
-          .style.setProperty("--frame", inputColor.value);
+        document.documentElement.style.setProperty(
+          "--baseColor",
+          inputColor.value
+        );
+      });
+
+      var blurPhotoRange = document.getElementById("blurPhoto");
+      var photograph = document.getElementById("photograph");
+      blurPhotoRange.addEventListener("input", function() {
+        blurValue = blurPhotoRange.value * 0.5;
+        photograph.style.setProperty("--blur", blurValue + "px");
+      });
+
+      var borderWidthRange = document.getElementById("borderWidthRange");
+      borderWidthRange.addEventListener("input", function() {
+        photograph.style.setProperty(
+          "--borderWidth",
+          borderWidthRange.value + "px"
+        );
       });
     </script>
   </body>

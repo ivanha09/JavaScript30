@@ -17,3 +17,25 @@ https://www.w3schools.com/css/css3_flexbox.asp
 https://codepen.io/noahblon/pen/ZbjmbK
 
 https://jsfiddle.net/girlie_mac/xuhZv/
+
+# blur
+
+https://developer.mozilla.org/en-US/docs/Web/CSS/filter-function/blur
+https://www.w3schools.com/howto/howto_css_blurred_background.asp
+
+# get global css variable
+
+https://stackoverflow.com/questions/37801882/how-to-change-css-root-color-variables-in-javascript
+
+#CSS Grid
+https://www.w3schools.com/css/css_grid.asp
+
+# dataset
+
+console.log(this.dataset);
+
+This will show you all the items that have dataset info
+
+# template literals
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
