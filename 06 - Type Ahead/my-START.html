@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Type Ahead 👀</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <form class="search-form">
+      <input type="text" class="search" placeholder="City or State" />
+      <ul class="suggestions">
+        <li>Filter for a city</li>
+        <li>or a state</li>
+      </ul>
+    </form>
+    <script>
+      const endpoint =
+        "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
+
+      const cities = [];
+
+      // accepts the json as an argument
+      fetch(endpoint)
+        // takes the data from the json and returns it.
+        .then(function(response) {
+          return response.json();
+        })
+        // this will take the response json and change it into an array
+        .then(function(myJson) {
+          // ... spread will seperate it into an array.
+          cities.push(...myJson);
+        });
+
+      // accepts text in input and matches it with the cities array
+      function findMatches(wordToMatch, cities) {
+        return cities.filter(function(place) {
+          // filter will take each element in the array and go through them
+          var regex = new RegExp(wordToMatch, "gi"); // compare each element with what is typed in the input.
+          return place.city.match(regex) || place.state.match(regex); // return the city or state element if it matches with the regex.
+        });
+      }
+
+      function displayMatches() {
+        const matchArray = findMatches(this.value, cities); // Puts what triggered the function and cities array into a variable
+        const html = matchArray // runs a function on each element in the cities array.
+          .map(place => {
+            // use `place` as the variable name
+            const regex = new RegExp(this.value, "gi"); // create a regex from the value in the input and saves it into a variable
+            // matches the regex value in the city value and replaces it with a class of hl and puts in the value of this with a template literal.
+            const cityName = place.city.replace(
+              regex,
+              `<span class="hl">${this.value}</span>`
+            );
+            const stateName = place.state.replace(
+              regex,
+              `<span class="hl">${this.value}</span>`
+            );
+            // replace the number in population with commas between every thousandth position.
+            const popNumber = place.population.replace(
+              /(\d)(?=(\d\d\d)+(?!\d))/g,
+              "$1,"
+            );
+            // return this string that will come out as html that has template literal for the variables
+            return `
+            <li>
+              <span class="name">${cityName}, ${stateName}</span>
+              <span class="population">${popNumber}</span>
+            </li>
+          `;
+          })
+          // joins on the arrays to make it one string.
+          .join("");
+        // put returned html data into the suggestions.innerHTML
+        suggestions.innerHTML = html;
+      }
+
+      // make a variable for the search input
+      var searchInput = document.querySelector(".search");
+      // make a variable for the suggestions ul
+      var suggestions = document.querySelector(".suggestions");
+
+      // event listener will run displayMatches when change event happens.
+      //searchInput.addEventListener("change", displayMatches);
+      searchInput.addEventListener("keyup", displayMatches);
+    </script>
+  </body>
+</html>
