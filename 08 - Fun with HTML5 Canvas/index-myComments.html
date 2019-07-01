@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+</head>
+
+<body>
+  <canvas id="draw" width="800" height="800"></canvas>
+  <script>
+    //Sets the canvas element to the const canvas.
+    const canvas = document.querySelector('#draw');
+    //Sets the type of content the canvas will display.
+    const ctx = canvas.getContext('2d');
+    //Sets the canvas size to the same as the windows size.
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    //Set the ctx color to a greenish color
+    ctx.strokeStyle = '#BADA55';
+    //Used to set the shape(to round) of the line point. 
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.lineWidth = 100;
+    //Set the the multiply filter for the canvas
+    ctx.globalCompositeOperation = 'multiply';
+
+    //Used to tell the draw function if it should be drawing or not
+    let isDrawing = false;
+    //Record the X and Y coordinate of the when the button was released.
+    let lastX = 0;
+    let lastY = 0;
+    //Used to keep track of the hue
+    let hue = 0;
+    //Used to tell the direction of the the value
+    let direction = true;
+
+    //Function is used to draw on the canvas
+    function draw(e) {
+      if (!isDrawing) return; // stop the fn from running when they are not moused down
+      console.log(e);
+      //strokeStyle is used to set the the color for the content on the canvas
+      ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+      //call the function beginPath used to set a new path on the canvas
+      ctx.beginPath();
+      //used to tell where the path should start from
+      ctx.moveTo(lastX, lastY);
+      //used to tell where the path goes to
+      ctx.lineTo(e.offsetX, e.offsetY);
+      //method used to draw the path of ctx.moveTo and ctx.lineTo
+      ctx.stroke();
+      //use destructuring to update the lastX to equal e.offsetX and lastY to equal e.offsetY
+      [lastX, lastY] = [e.offsetX, e.offsetY];
+
+      //increase the value of hue by one.
+      hue++;
+      //reset hue to 0 if it is greater than or equal to 360
+      if (hue >= 360) {
+        hue = 0;
+      }
+      //used set the increase or decrease the width of the lineWidth depending on the value
+      if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+        direction = !direction;
+      }
+
+      //used to incrase the value or decrease the value of the line width
+      if (direction) {
+        ctx.lineWidth++;
+      } else {
+        ctx.lineWidth--;
+      }
+
+    }
+
+    //when the mousedown event is registered that will run the anonymous function passing in the MouseEvent information as a parameter
+    canvas.addEventListener('mousedown', (e) => {
+      //this will set drawing to true so that the canvas will start drawing
+      isDrawing = true;
+      //use destructuring assignments to make lastX equal to e.offsetX and lastY equal to e.offsetY
+      [lastX, lastY] = [e.offsetX, e.offsetY];
+    });
+
+
+    //when a mousemove event is registered the draw is a listener to run draw()
+    canvas.addEventListener('mousemove', draw);
+    //when a mouseup event is registered isDrawing will be set to false
+    canvas.addEventListener('mouseup', () => isDrawing = false);
+    //when the mouse goes out of the drawing area then the isDrawing will be set to false
+    canvas.addEventListener('mouseout', () => isDrawing = false);
+
+  </script>
+
+  <style>
+    html,
+    body {
+      margin: 0;
+    }
+  </style>
+
+</body>
+
+</html>
